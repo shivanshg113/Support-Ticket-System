@@ -1,0 +1,65 @@
+version: "3.9"
+
+services:
+
+  # ── PostgreSQL ────────────────────────────────────────────────
+  postgres:
+    image: postgres:16-alpine
+    container_name: stms-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB:       stms
+      POSTGRES_USER:     stms_user
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-stms_pass}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U stms_user -d stms"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ── Spring Boot backend ───────────────────────────────────────
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: stms-backend
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DB_URL:      jdbc:postgresql://postgres:5432/stms
+      DB_USERNAME: stms_user
+      DB_PASSWORD: ${DB_PASSWORD:-stms_pass}
+      SPRING_PROFILES_ACTIVE: default
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/actuator/health | grep -q UP"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+
+  # ── Next.js frontend ──────────────────────────────────────────
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_API_BASE_URL: http://localhost:8080/api
+    container_name: stms-frontend
+    restart: unless-stopped
+    depends_on:
+      backend:
+        condition: service_healthy
+    environment:
+      NEXT_PUBLIC_API_BASE_URL: http://localhost:8080/api
+    ports:
+      - "3000:3000"
+
+volumes:
+  postgres_data:

@@ -1,0 +1,33 @@
+# ── Secrets (root-level catch-all) ───────────────────────────────
+.env
+*.env
+.env.*
+application-local.yml
+application-local.properties
+application-prod.yml
+application-prod.properties
+secrets.yml
+secrets.properties
+
+# ── OS / IDE ─────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# ── Nested / embedded git repos ───────────────────────────────────
+Support-Ticket-System/
+
+# ── H2 data files (backend subfolder) ────────────────────────────
+backend/data/
+backend/*.mv.db
+backend/*.trace.db
+
+# ── Build artefacts (root-level safety net) ───────────────────────
+target/
+node_modules/
+.next/
+dist/
+out/

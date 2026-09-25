@@ -1,0 +1,52 @@
+# ── Build output ─────────────────────────────────────────────────
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+# ── Compiled classes ──────────────────────────────────────────────
+*.class
+*.jar
+*.war
+*.ear
+*.nar
+
+# ── Logs ─────────────────────────────────────────────────────────
+*.log
+logs/
+spring.log
+
+# ── H2 embedded database files ────────────────────────────────────
+data/
+*.mv.db
+*.trace.db
+
+# ── Secrets / environment configs ─────────────────────────────────
+.env
+*.env
+.env.*
+application-local.yml
+application-local.properties
+application-prod.yml
+application-prod.properties
+application-secrets.yml
+secrets.yml
+secrets.properties
+
+# ── Maven wrapper binary (large, auto-downloaded) ─────────────────
+.mvn/wrapper/maven-wrapper.jar
+
+# ── IDE / OS ──────────────────────────────────────────────────────
+.idea/
+*.iml
+*.iws
+*.ipr
+.vscode/
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# ── JVM crash dumps ───────────────────────────────────────────────
+hs_err_pid*
+replay_pid*
