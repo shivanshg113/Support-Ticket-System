@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.stms.controller.CommentControllerIntegrationTest
+-------------------------------------------------------------------------------
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.394 s -- in com.stms.controller.CommentControllerIntegrationTest
